@@ -1,0 +1,253 @@
+openapi: 3.0.3
+info:
+  title: Swagger Google Scholar Search - OpenAPI 3.0
+  description: |-
+    This is a sample Google Scholar Server based on the OpenAPI 3.0 specification.  You can find out more about
+    Swagger at [https://swagger.io](https://swagger.io).
+
+    Some useful links:
+    - [The source API definition for the Google Scholar Search](https://github.com/afcarrera/digital-nao-dream-team-innovacion/tree/main/spec/openapi.yaml)
+    - [Get api key to use this API](https://serpapi.com/manage-api-key)
+    - [Guide to find the author IDs](https://serpapi.com/google-scholar-profiles-api)
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: afcarreral@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://serpapi.com/search.json
+tags:
+  - name: googleScholarAuthorById
+    description: Operations about google scholar
+paths:
+  /:
+    get:
+      tags:
+        - googleScholarAuthorById
+      summary: Search google scholar author by id
+      description: Allows you to scrape author results from the Google Scholar Author search page
+      operationId: googleScholarAuthorById
+      parameters:
+        - name: author_id
+          in: query
+          description: Parameter defines the ID of an author.
+          required: true
+          schema:
+            type: string
+        - name: api_key
+          in: query
+          description: Parameter defines the SerpApi private key to use.
+          required: true
+          schema:
+            type: string
+        - name: engine
+          in: query
+          description: Set parameter to google_scholar_author to use the Google Scholar Author API engine..
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResult'
+        '400':
+          description: Bad request
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        citation_id:
+          type: string
+        authors:
+          type: string
+        publication:
+          type: string
+        cited_by:
+          type: object
+          $ref: '#/components/schemas/ArticleCitedBy'
+        year:
+          type: string
+    ArticleCitedBy:
+      type: object
+      properties:
+        value:
+          type: integer
+        link:
+          type: string
+        serpapi_link:
+          type: string
+    Author:
+      type: object
+      properties:
+        name: 
+          type: string
+        affiliations:
+          type: string
+        email:
+          type: string
+        interests:
+          type: array
+          items:
+            $ref: '#/components/schemas/Interest'
+        thumbnail:
+          type: string
+    Citation:
+      type: object
+      properties:
+        citations:
+          type: object
+          $ref: '#/components/schemas/CitationInfo'
+    CitationInfo:
+      properties:
+        all:
+          type: integer
+        depuis_2016:
+          type: integer
+    CitedBy:
+      type: object
+      properties:
+        table:
+          type: array
+          items:
+            anyOf:
+              - $ref: '#/components/schemas/Citation'
+              - $ref: '#/components/schemas/IndiceH'
+              - $ref: '#/components/schemas/IndiceI10'
+        graph:
+          type: array
+          items:
+            $ref: '#/components/schemas/Graph'
+    CoAuthor:
+      type: object
+      properties:
+        name:
+            type: string
+        link:
+            type: string
+        serpapi_link:
+            type: string
+        author_id:
+            type: string
+        affiliations:
+            type: string
+        email:
+            type: string
+        thumbnail: 
+            type: string
+    Graph:
+      type: object
+      properties:
+        year:
+          type: integer
+        citations:
+          type: string
+    IndiceH:
+      type: object
+      properties:
+        indice_h:
+          type: object
+          $ref: '#/components/schemas/CitationInfo'
+    IndiceI10:
+      type: object
+      properties:
+        indice_i10:
+          type: object
+          $ref: '#/components/schemas/CitationInfo'
+    Interest:
+      type: object
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        serpapi_link:
+          type: string
+    PublicAccess:
+      properties:
+        link:
+          type: string
+        available:
+          type: integer
+        not_available:
+          type: integer
+    SearchMetadata:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+        json_endpoint:
+          type: string
+        created_at:
+          type: string
+        processed_at:
+          type: string
+        google_scholar_author_url:
+          type: string
+        raw_html_file:
+          type: string
+        total_time_taken:
+          type: number
+          format: float
+    SearchParameter:
+      type: object
+      properties:
+        engine:
+          type: string
+        author_id:
+          type: string
+        hl:
+          type: string
+    SearchResult:
+      type: object
+      properties:
+        search_metadata:
+          type: object
+          $ref: '#/components/schemas/SearchMetadata'
+        search_parameters:
+          type: object
+          $ref: '#/components/schemas/SearchParameter'
+        author:
+          type: object
+          $ref: '#/components/schemas/Author'
+        articles:
+          type: array
+          items:
+            $ref: '#/components/schemas/Article'
+        cited_by:
+          type: object
+          $ref: '#/components/schemas/CitedBy'
+        public_access:
+          type: object
+          $ref: '#/components/schemas/PublicAccess'
+        co_authors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoAuthor'
+        serpapi_pagination:
+          type: object
+          $ref: '#/components/schemas/SerpapiPagination'
+    SerpapiPagination:
+      type: object
+      properties:
+        next:
+          type: string
