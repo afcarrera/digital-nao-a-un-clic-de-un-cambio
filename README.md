@@ -1,33 +1,61 @@
-# digital-nao-dream-team-innovacion
- El dream team de la innovación
-***
+---
+page_type: sample
+languages:
+- java
+products:
+- azure
+description: "This is a sample application to showcase the use of Spring Cloud Function on top of Azure Functions."
+urlFragment: hello-spring-function-azure
+---
 
-## Información
-***
-Google Search Author API.
-## Tecnologías
-***
-* [Java](https://www.java.com/es/download/ie_manual.jsp): Version 11
-* [Spring Boot](https://spring.io/projects/spring-boot): Version 2.7.10
-* [Git](https://mirrors.edge.kernel.org/pub/software/scm/git/): Version 2.39.1.windows.1
+# Example "Hello, world" Spring Boot application that runs on Azure Functions
 
-## Instalación
-***
-Comandos recomendados para instalación en plataformas Windows.
+This is a sample application to showcase the use of Spring Cloud Function on top of Azure Functions.
+
+## Features
+
+This is just a "Hello, world", but it uses domain objects so it's easy to extend to do something more complex.
+
+## Getting Started
+
+### Prerequisites
+
+This project uses the Maven Wrapper, so all you need is Java installed.
+
+### Installation
+
+- Clone the project: `git clone https://github.com/Azure-Samples/hello-spring-function-azure.git`
+- Configure the project to use your own resource group and your own application name (it should be unique across Azure)
+  - Open the `pom.xml` file
+  - Customize the `functionResourceGroup` and `functionAppName` properties
+- Build the project: `./mvnw clean package`
+
+### Quickstart
+
+Once the application is built, you can run it locally using the Azure Function Maven plug-in:
+
+`./mvnw azure-functions:run`
+
+And you can test it using a cURL command:
+
+`curl http://localhost:7071/api/hello -d '{"name": "Azure"}'`
+
+## Deploying to Azure Functions
+
+Deploy the application on Azure Functions with the Azure Function Maven plug-in:
+
+`./mvnw azure-functions:deploy`
+
+You can then test the running application, by running a POST request:
+
 ```
-> git clone https://github.com/afcarrera/digital-nao-a-un-clic-de-un-cambio
-> cd google-scholar-api
-> mvnw spring-boot:run 
+curl https://<YOUR_SPRING_FUNCTION_NAME>.azurewebsites.net/api/hello -d '{"name": "Azure"}'
 ```
-## Uso
-***
-El detalle de los endpoint es el siguiente.
 
-### PORT
-[9000](#)
+Or a GET request:
 
-### CONTEXT
-[/google-scholar](#)
+```
+curl https://<YOUR_SPRING_FUNCTION_NAME>.azurewebsites.net/api/hello?name=Azure
+```
 
-### GET BY ID
-[/api/v1/authors?author_id={author_id}&api_key={api_key}&engine=google_scholar_author](#)
+Replace the `<YOUR_SPRING_FUNCTION_NAME>` part by the name of your Spring Function.
