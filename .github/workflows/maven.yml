@@ -28,4 +28,4 @@ jobs:
         distribution: 'temurin'
         cache: maven      
     - name: Build and Test
-      run: mvn -B package --file google-scholar-api/pom.xml -Dmaven.test.failure.ignore=true
+      run: mvn -B package --file pom.xml
