@@ -2,9 +2,7 @@ pipeline {
      agent any
      
         environment {
-        //once you create ACR in Azure cloud, use that here
         registryName = "acrcarrera/digital-nao-a-un-clic-de-un-cambio"
-        //- update your credentials ID after creating credentials for connecting to ACR
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'acrcarrera.azurecr.io'
@@ -24,6 +22,17 @@ pipeline {
                 }
             }
         }
+
+		stage('Deploy template azure function') {
+			steps{   
+				script {
+				    sh "az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}"
+				    sh "az resource delete --resource-group af_group --name afcarrera  --resource-type \"Microsoft.Web/sites\""
+				    sh "az resource delete --resource-group af_group --name ASP-afgroup-81b8  --resource-type \"Microsoft.Web/serverfarms\""
+					sh "az deployment group create --name AFDeployment --resource-group af_group --template-file \"templates/azure-functions/template.json\""
+				}
+			}
+		}       
        
 		stage('Upload Image to ACR') {
 			steps{   
@@ -34,16 +43,5 @@ pipeline {
 				}
 			}
 		}
-       
-		stage('Deploy template azure function') {
-			steps{   
-				script {
-					sh "az deployment group create --name AFDeployment --resource-group af_group --template-file \"templates/azure-functions/template.json\""
-				}
-			}
-		}
-
-		
-
     }
  }
