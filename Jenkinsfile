@@ -3,6 +3,8 @@ pipeline {
      
         environment {
         registryName = "acrcarrera/digital-nao-a-un-clic-de-un-cambio"
+        tenantSecret = credential('tenant_id')
+        appCredential = credential('af_acr_app')
         registryCredential = 'ACR'
         dockerImage = ''
         registryUrl = 'acrcarrera.azurecr.io'
