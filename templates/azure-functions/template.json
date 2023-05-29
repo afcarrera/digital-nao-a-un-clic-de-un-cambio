@@ -6,8 +6,8 @@
             "defaultValue": "afcarrera",
             "type": "String"
         },
-        "serverfarms_ASP_afgroup_81b8_name": {
-            "defaultValue": "ASP-afgroup-81b8",
+        "serverfarms_ASP_afgroup_9672_name": {
+            "defaultValue": "ASP-afgroup-9672",
             "type": "String"
         }
     },
@@ -16,7 +16,7 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2022-09-01",
-            "name": "[parameters('serverfarms_ASP_afgroup_81b8_name')]",
+            "name": "[parameters('serverfarms_ASP_afgroup_9672_name')]",
             "location": "East US",
             "sku": {
                 "name": "Y1",
@@ -31,7 +31,7 @@
                 "elasticScaleEnabled": false,
                 "maximumElasticWorkerCount": 1,
                 "isSpot": false,
-                "reserved": false,
+                "reserved": true,
                 "isXenon": false,
                 "hyperV": false,
                 "targetWorkerCount": 0,
@@ -45,9 +45,9 @@
             "name": "[parameters('sites_afcarrera_name')]",
             "location": "East US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_afgroup_81b8_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_afgroup_9672_name'))]"
             ],
-            "kind": "functionapp",
+            "kind": "functionapp,linux",
             "properties": {
                 "enabled": true,
                 "hostNameSslStates": [
@@ -62,8 +62,8 @@
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_afgroup_81b8_name'))]",
-                "reserved": false,
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ASP_afgroup_9672_name'))]",
+                "reserved": true,
                 "isXenon": false,
                 "hyperV": false,
                 "vnetRouteAllEnabled": false,
@@ -71,6 +71,7 @@
                 "vnetContentShareEnabled": false,
                 "siteConfig": {
                     "numberOfWorkers": 1,
+                    "linuxFxVersion": "Java|17",
                     "acrUseManagedIdentityCreds": false,
                     "alwaysOn": false,
                     "http20Enabled": false,
@@ -136,7 +137,8 @@
                     "default.aspx",
                     "index.php"
                 ],
-                "netFrameworkVersion": "v6.0",
+                "netFrameworkVersion": "v4.0",
+                "linuxFxVersion": "Java|17",
                 "requestTracingEnabled": false,
                 "remoteDebuggingEnabled": false,
                 "httpLoggingEnabled": false,
@@ -145,10 +147,9 @@
                 "detailedErrorLoggingEnabled": false,
                 "publishingUsername": "$afcarrera",
                 "scmType": "None",
-                "use32BitWorkerProcess": true,
+                "use32BitWorkerProcess": false,
                 "webSocketsEnabled": false,
                 "alwaysOn": false,
-                "javaVersion": "17",
                 "managedPipelineMode": "Integrated",
                 "virtualApplications": [
                     {

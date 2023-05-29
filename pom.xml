@@ -28,7 +28,7 @@
 
         <!-- customize those five properties. The functionAppName should be unique across Azure -->
         <functionResourceGroup>af_group</functionResourceGroup>
-        <functionAppServicePlanName>ASP-afgroup-81b8</functionAppServicePlanName>
+        <functionAppServicePlanName>ASP-afgroup-9672</functionAppServicePlanName>
         <functionAppName>afcarrera</functionAppName>
         <functionAppRegion>eastus</functionAppRegion>
         <functionPricingTier>Y1</functionPricingTier>
