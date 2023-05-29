@@ -11,10 +11,9 @@ pipeline {
     }
     
     stages {
-
         stage ('checkout') {
             steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], userRemoteConfigs: [[url: 'https://github.com/afcarrera/digital-nao-a-un-clic-de-un-cambio']]])
+            	checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], userRemoteConfigs: [[url: 'https://github.com/afcarrera/digital-nao-a-un-clic-de-un-cambio']]])
             }
         }
        
@@ -28,13 +27,13 @@ pipeline {
         }
        
 		stage('Upload Image to ACR') {
-		steps{   
-			script {
-				docker.withRegistry( "http://${registryUrl}", registryCredential ) {
-				dockerImage.push()
+			steps{   
+				script {
+					docker.withRegistry( "http://${registryUrl}", registryCredential ) {
+					dockerImage.push()
+					}
 				}
 			}
 		}
-    }
     }
  }
