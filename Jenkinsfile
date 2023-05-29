@@ -34,5 +34,16 @@ pipeline {
 				}
 			}
 		}
+       
+		stage('Deploy template azure function') {
+			steps{   
+				script {
+					sh "az deployment group create --name AFDeployment --resource-group af_group --template-file \"templates/azure-functions/template.json\""
+				}
+			}
+		}
+
+		
+
     }
  }
