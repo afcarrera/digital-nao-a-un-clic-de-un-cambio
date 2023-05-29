@@ -21,26 +21,14 @@ pipeline {
             }
         }
 
-		stage('Deploy template azure function') {
+		stage('Delete AZ group resources') {
 			steps{   
 				script {
 				    sh 'az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}'
-				    sh "az resource delete --resource-group af_group --name afcarrera  --resource-type \"Microsoft.Web/sites\""
-				    sh "az resource delete --resource-group af_group --name ASP-afgroup-9672  --resource-type \"Microsoft.Web/serverfarms\""
-					sh "az deployment group create --name AFDeployment --resource-group af_group --template-file \"templates/azure-functions/template.json\""
+				    sh "az group delete --name af_group_jl"
 				}
 			}
 		}
-
-		stage('Build Maven') {
-            steps {
-                script {
-                  	sh 'mvn clean package'
-                  	sh 'mvn azure-functions:deploy'
-				  	sh "az logout"
-                }
-            }
-    	}
        
         stage ('Build Docker image') {
             steps {
@@ -59,5 +47,21 @@ pipeline {
 				}
 			}
 		}
+
+		stage('Build Maven') {
+            steps {
+                script {
+    				 sh 'mvn clean package'
+                }
+                script {
+                    catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                      	sh 'mvn azure-functions:deploy'
+                    }
+                }
+                script {
+    				 sh "az logout"
+                }
+            }
+    	}
     }
  }
