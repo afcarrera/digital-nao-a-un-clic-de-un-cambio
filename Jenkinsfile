@@ -24,7 +24,7 @@ pipeline {
 		stage('Deploy template azure function') {
 			steps{   
 				script {
-				    sh "az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}"
+				    sh 'az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}'
 				    sh "az resource delete --resource-group af_group --name afcarrera  --resource-type \"Microsoft.Web/sites\""
 				    sh "az resource delete --resource-group af_group --name ASP-afgroup-9672  --resource-type \"Microsoft.Web/serverfarms\""
 					sh "az deployment group create --name AFDeployment --resource-group af_group --template-file \"templates/azure-functions/template.json\""
