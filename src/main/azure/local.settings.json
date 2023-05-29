@@ -1,7 +1,7 @@
 {
   "IsEncrypted": false,
   "Values": {
-    "AzureWebJobsStorage": "",
+    "AzureWebJobsStorage": "cs71003200115966b69",
     "FUNCTIONS_WORKER_RUNTIME": "java",
     "AzureWebJobsDashboard": ""
   }
