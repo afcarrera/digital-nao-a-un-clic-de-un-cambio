@@ -16,12 +16,6 @@ pipeline {
             	checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], userRemoteConfigs: [[url: 'https://github.com/afcarrera/digital-nao-a-un-clic-de-un-cambio']]])
             }
         }
-
-        stage ('Maven Build') {
-            steps {
-            	sh "mvn clean package"
-            }
-        }
        
         stage ('Build Docker image') {
             steps {                
