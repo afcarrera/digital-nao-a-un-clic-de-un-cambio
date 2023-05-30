@@ -2,10 +2,10 @@ pipeline {
     agent any
      
     environment {
-        registryName = "acrcarrera/digital-nao-a-un-clic-de-un-cambio"
         tenantSecret = credentials('tenant_id')
         appCredential = credentials('af_acr_app')
         registryCredential = 'ACR'
+        registryName = "acrcarrera/digital-nao-a-un-clic-de-un-cambio"
         dockerImage = ''
         registryUrl = 'acrcarrera.azurecr.io'
     }
