@@ -22,10 +22,12 @@ pipeline {
         }
 
 		stage('Delete AZ group resources') {
-			steps{   
+			steps{    
+				script {
+    				sh 'az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}'
+				}
 				script {
 				    catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-    				    sh 'az login --service-principal -u ${appCredential_USR} -p ${appCredential_PSW} --tenant ${tenantSecret}'
     				    sh "az group delete --name af_group_jl --yes"
                     }
 				}
